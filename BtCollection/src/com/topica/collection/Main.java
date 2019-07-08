@@ -1,11 +1,9 @@
 package com.topica.collection;
 
-import java.util.ArrayList;
-import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.LinkedHashMap;
-import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Random;
 import java.util.Scanner;
@@ -13,6 +11,7 @@ import java.util.Scanner;
 public class Main {
 
 	public static void main(String[] args) {
+		long startTime = System.currentTimeMillis();
 		int numberInit;
 		int rad;
 		double radInit;
@@ -44,37 +43,16 @@ public class Main {
 		System.out.println("index:" + index);
 		System.out.println("area : " + area);
 		System.out.println("Order: ");
-		hm = sortHashMapByValues(hm);
-		hm.forEach((key, value) -> System.out.println(value.getRadius()));
-
-	}
-
-	public static LinkedHashMap<Integer, Circle> sortHashMapByValues(HashMap<Integer, Circle> passedMap) {
-		List<Integer> mapKeys = new ArrayList<>(passedMap.keySet());
-		List<Circle> mapValues = new ArrayList<>(passedMap.values());
-		Collections.sort(mapValues);
-		Collections.sort(mapKeys);
-
 		LinkedHashMap<Integer, Circle> sortedMap = new LinkedHashMap<>();
+				hm.entrySet()
+			        .stream()
+			        .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
+			        .forEachOrdered(x -> sortedMap.put(x.getKey(), x.getValue()));
+		sortedMap.forEach((key, value) -> System.out.println(value.getRadius()));
+		System.out.println(System.currentTimeMillis() - startTime);
 
-		Iterator<Circle> valueIt = mapValues.iterator();
-		while (valueIt.hasNext()) {
-			Circle val = valueIt.next();
-			Iterator<Integer> keyIt = mapKeys.iterator();
-
-			while (keyIt.hasNext()) {
-				Integer key = keyIt.next();
-				Circle comp1 = passedMap.get(key);
-				Circle comp2 = val;
-
-				if (comp1.equals(comp2)) {
-					keyIt.remove();
-					sortedMap.put(key, val);
-					break;
-				}
-			}
-		}
-		return sortedMap;
 	}
+
+	
 
 }
