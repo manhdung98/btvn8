@@ -31,7 +31,6 @@ public class Main {
 		radInit = Math.sqrt(numberInit / Math.PI);
 		double min = Math.abs(radInit - hm.get(0).getRadius());
 		double area = 0;
-		System.out.println(min);
 		for (Entry<Integer, Circle> en : hm.entrySet()) {
 			if (Math.abs(radInit - en.getValue().getRadius()) < min) {
 				min = Math.abs(radInit - en.getValue().getRadius());
